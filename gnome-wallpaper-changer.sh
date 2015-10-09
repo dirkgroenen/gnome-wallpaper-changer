@@ -2,9 +2,10 @@
 #
 # Copyright 2015 - Dirk Groenen
 
+# You can change the config vars below so they fit your setup
+SLEEP=600  # Time to sleep before changing to another wallpaper
 WP_DIR=/home/$USER/Pictures/wallpapers # Set your wallpaper directory here
 
-# Go into wallpaper directory and
 cd $WP_DIR
 while [ 1 ]
     do
@@ -14,5 +15,5 @@ while [ 1 ]
 
     gsettings set org.gnome.desktop.background picture-uri "file://$WP_DIR/${!random_num}"
 
-    sleep 600 # Time to sleep before changing to another wallpaper
+    sleep $SLEEP
 done
