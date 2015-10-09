@@ -9,8 +9,8 @@ Download the `gnome-wallpaper-changer.sh` script and drop it somewhere in your s
 ```
 wget -O gnome-wallpaper-changer.tar.gz https://github.com/dirkgroenen/gnome-wallpaper-changer/archive/master.tar.gz gnome-wallpaper-changer.tar.gz
 tar -vxf gnome-wallpaper-changer.tar.gz
-cp gnome-wallpaper-changer-master/gnome-wallpaper-changer.sh /usr/bin/gnome-wallpaper-changer
-chmod +x /usr/bin/gnome-wallpaper-changer
+sudo cp gnome-wallpaper-changer-master/gnome-wallpaper-changer.sh /usr/bin/gnome-wallpaper-changer
+sudo chmod +x /usr/bin/gnome-wallpaper-changer
 rm -r gnome-wallpaper-changer.tar.gz ./gnome-wallpaper-changer-master
 ```
 
