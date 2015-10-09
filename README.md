@@ -15,7 +15,7 @@ rm -r gnome-wallpaper-changer.tar.gz ./gnome-wallpaper-changer-master
 ```
 
 #### Configure
-Open the script and change the `WP_DIR` to the directory containing your wallpaper files. By default it will check the `/home/$USER/Pictures/wallpapers` directory.
+Open the script (`nano /usr/bin/gnome-wallpaper-changer`) and change the `WP_DIR` to the directory containing your wallpaper files. By default it will check the `/home/$USER/Pictures/wallpapers` directory.
 
 If you want increase or decrease the time between each new wallpaper you can change the `sleep` value.
 
