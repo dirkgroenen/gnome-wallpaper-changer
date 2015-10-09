@@ -1,7 +1,10 @@
 #!/bin/bash
+#
+# Copyright 2015 - Dirk Groenen
 
 WP_DIR=/home/$USER/Pictures/wallpapers # Set your wallpaper directory here
 
+# Go into wallpaper directory and
 cd $WP_DIR
 while [ 1 ]
     do

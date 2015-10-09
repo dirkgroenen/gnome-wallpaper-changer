@@ -1,23 +1,23 @@
 #Gnome Wallpaper Changer
------------
 
-Little script which changes your Gnome Desktop wallpaper based on the images in the provided directory.
+This little script changes your Gnome Desktop wallpaper based on the images in the provided directory. 
 
 ## Setup
 #### Download and install
 Download the `gnome-wallpaper-changer.sh` script and drop it somewhere in your system. For example the `usr/share/` directory.
 
+```
+wget -O gnome-wallpaper-changer.tar.gz https://github.com/dirkgroenen/gnome-wallpaper-changer/archive/master.tar.gz gnome-wallpaper-changer.tar.gz
+tar -vxf gnome-wallpaper-changer.tar.gz
+cp gnome-wallpaper-changer-master/gnome-wallpaper-changer.sh /usr/bin/gnome-wallpaper-changer
+chmod +x /usr/bin/gnome-wallpaper-changer
+rm -r gnome-wallpaper-changer.tar.gz ./gnome-wallpaper-changer-master
+```
+
 #### Configure
 Open the script and change the `WP_DIR` to the directory containing your wallpaper files. By default it will check the `/home/$USER/Pictures/wallpapers` directory.
 
 If you want increase or decrease the time between each new wallpaper you can change the `sleep` value.
-
-#### Make script executable 
-Run the following command. Change `usr/share/` to an other directory if you have chosen your own. 
-
-```
-chmod +x /usr/share/gnome-wallpaper-changer.sh
-```
 
 #### Start on boot
 Make a Desktop Entry for the program so it starts when you login. 
@@ -30,7 +30,7 @@ Paste the following into the file
 ```
 [Desktop Entry]
 Name=gnome-wallpaper-changer
-Exec=/usr/share/gnome-wallpaper-changer.sh
+Exec=/usr/bin/gnome-wallpaper-changer
 Comment=Automatically change wallpaper
 Hidden=false
 Type=Application
