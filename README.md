@@ -40,3 +40,7 @@ X-GNOME-Autostart-enabled=true
 Save (`CTRL+O`) and exit (`CTRL+X`).
 
 Everything is set up and will start working the next time you login.
+
+## Little extra from the house
+*Oh man I don't have any cool wallpapers to slide through....*
+No problem mate! Check [unsplash.com](https://unsplash.com/) for awesome free to use wallpaper. I use this site all the time for my wallpaper and projects, so spreading a bit of love never hurts! :)
