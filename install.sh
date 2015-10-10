@@ -105,6 +105,8 @@ function remove_tmp_installation_directory {
 }
 
 function move_application_scripts {
+    print_info "Start installing Gnome Wallpaper Changer"
+
     write_log "Moving application file to $SYSPATH/$APP_FILE"
 
     # Copy main file and make it executable
