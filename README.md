@@ -4,12 +4,10 @@ This little script changes your Gnome Desktop wallpaper based on the images in t
 
 ## Installation
 ### The easy way
-The script comes with a handy installer which does all the work for you. To install the Gnome Wallpaper Changer you only have to run the following commands: 
+The script comes with a handy installer which does all the work for you. To install the Gnome Wallpaper Changer you only have to run the following command: 
 
 ```
-wget -O gnome-wallpaper-changer.tar.gz https://github.com/dirkgroenen/gnome-wallpaper-changer/archive/master.tar.gz gnome-wallpaper-changer.tar.gz
-tar -vxf gnome-wallpaper-changer.tar.gz
-./gnome-wallpaper-changer-master/install.sh
+wget -O gnome-wallpaper-changer.tar.gz https://github.com/dirkgroenen/gnome-wallpaper-changer/archive/master.tar.gz && tar -vxf gnome-wallpaper-changer.tar.gz && ./gnome-wallpaper-changer-master/install.sh
 ```
 
 The installer will now ask you a few questions. All questions are self explaining, but don't hesitate to drop a question in the issues in case you're having problems.
