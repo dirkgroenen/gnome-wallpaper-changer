@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=gnome-wallpaper-changer
+Exec=/usr/bin/gnome-wallpaper-changer
+Comment=Automatically change wallpaper
+Hidden=false
+Type=Application
+X-GNOME-Autostart-enabled=true
