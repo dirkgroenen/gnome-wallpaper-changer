@@ -41,6 +41,13 @@ function ask_user_local_directory {
     done
 }
 
+function ask_user_sleep_time {
+    print_info "How many seconds do you want there to be between switching images?"
+    read -p "Enter number of seconds [${bold}600${normal}]: " SLEEP
+
+    SLEEP="${SLEEP:-600}"
+}
+
 function create_desktop_entry_file {
     write_log "Copying desktop entry template to '$TMPDIR/$DESKTOP_TEMPLATE'"
 
@@ -50,7 +57,11 @@ function create_desktop_entry_file {
     check_exit_status
 
     # Build execute based on provided info
-    EXECUTE="$SYSPATH/$APP_FILE --source $SOURCE --path $LOCALPATH"
+    if [[ "$SOURCE" = "local" ]]; then
+        EXECUTE="$SYSPATH/$APP_FILE --source $SOURCE --sleep $SLEEP --path $LOCALPATH"
+    else
+        EXECUTE="$SYSPATH/$APP_FILE --source $SOURCE --sleep $SLEEP"
+    fi
 
     # Change executable line
     sed -i "s#Exec=.*#Exec=${EXECUTE}#g" "$TMPDIR/$DESKTOP_TEMPLATE"
@@ -154,6 +165,8 @@ function start_install {
     if [[ "$SOURCE" = "local" ]]; then
         ask_user_local_directory
     fi
+
+    ask_user_sleep_time
 
     create_tmp_installation_directory
 

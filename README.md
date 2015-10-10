@@ -22,6 +22,7 @@ You might want to change the `Exec=` line in the desktop entry so it fits your p
 ```
 --source [unsplash/local, default local]   // Choose the source to use
 --path [default: ~/Pictures]    // Select the directory on your filesystem
+--sleep [default: 600]    // The time to wait before changing to a new image (seconds)
 ```
 
 So your desktop entry might look like:

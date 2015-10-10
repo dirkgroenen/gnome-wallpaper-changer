@@ -116,6 +116,11 @@ do
             WP_DIR="$2"
             shift
             ;;
+
+        --sleep)
+            SLEEP="$2"
+            shift
+            ;;
     esac
     shift
 done
