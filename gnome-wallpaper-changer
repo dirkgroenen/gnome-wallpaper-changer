@@ -20,12 +20,18 @@ function get_random_image_from_unsplash {
     write_log "Getting image from Unsplash"
 
     # Get a random featured image from Unsplash and save the response in $response
-    response=$(curl -s -S -X GET -H 'Authorization: Client-ID 53bf8603de0f9a6c69948a0a7120cf32ff4b2cdd5cfba750b1c6cb2fcd2fe24d' 'https://api.unsplash.com/photos/random?featured=1')
+    response=$(curl -i -s -S -X GET -H 'Authorization: Client-ID 53bf8603de0f9a6c69948a0a7120cf32ff4b2cdd5cfba750b1c6cb2fcd2fe24d' 'https://api.unsplash.com/photos/random?featured=1')
 
     # Set regex to get our image url
-    regex="\"full\":\"([^\"]+)\""
+    regex_image="\"full\":\"([^\"]+)\""
+    regex_rate_limit = "X-Ratelimit-Remaining: ([0-9]+)"
 
-    if [[ $response =~ $regex ]] ; then
+    if [[ $response =~ $regex_rate_limit ]] ; then
+        REMAINING=${BASH_REMATCH[1]}
+        write_log "Rate limit remaining requests: $REMAINING"
+    fi
+
+    if [[ $response =~ $regex_image ]] ; then
         write_log "Response from Unsplash contains image"
 
         imagepath=/tmp/gnome-unsplash-wallpaper.$(date +"%s").jpg
