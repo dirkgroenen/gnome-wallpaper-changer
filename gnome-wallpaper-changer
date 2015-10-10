@@ -14,7 +14,7 @@ WP_DIR=/home/$USER/Pictures/wallpapers # Set your wallpaper directory here
 LOGFILE="/var/log/gnome-wallpaper-changer.log"
 SOURCE="local"
 
-RETRY_TIMEOUT=30
+RETRY_TIMEOUT=60
 
 function get_random_image_from_unsplash {
     write_log "Getting image from Unsplash"
