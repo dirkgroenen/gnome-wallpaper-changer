@@ -1,47 +1,40 @@
 #Gnome Wallpaper Changer
 
-This little script changes your Gnome Desktop wallpaper based on the images in the provided directory. 
+This little script changes your Gnome Desktop wallpaper based on the images in the provided directory **OR** get a random featured image from [Unsplash](http://unsplash.com).
 
-## Setup
-#### Download and install
-Download the `gnome-wallpaper-changer.sh` script and drop it somewhere in your system. For example the `usr/share/` directory.
+## Installation
+### The easy way
+The script comes with a handy installer which does all the work for you. To install the Gnome Wallpaper Changer you only have to run the following commands: 
 
 ```
 wget -O gnome-wallpaper-changer.tar.gz https://github.com/dirkgroenen/gnome-wallpaper-changer/archive/master.tar.gz gnome-wallpaper-changer.tar.gz
 tar -vxf gnome-wallpaper-changer.tar.gz
-sudo cp gnome-wallpaper-changer-master/gnome-wallpaper-changer.sh /usr/bin/gnome-wallpaper-changer
-sudo chmod +x /usr/bin/gnome-wallpaper-changer
-rm -r gnome-wallpaper-changer.tar.gz ./gnome-wallpaper-changer-master
+./gnome-wallpaper-changer-master/install.sh
 ```
 
-#### Configure
-Open the script (`nano /usr/bin/gnome-wallpaper-changer`) and change the `WP_DIR` to the directory containing your wallpaper files. By default it will check the `/home/$USER/Pictures/wallpapers` directory.
+The installer will now ask you a few questions. All questions are self explaining, but don't hesitate to drop a question in the issues in case you're having problems.
 
-If you want increase or decrease the time between each new wallpaper you can change the `sleep` value.
+### The manual way
+In case you don't want to use the installer you can also install it manually. Copy the `gnome-wallpaper-changer` to a place somewhere on your system and create a desktop entry in `~/.config/autostart`. 
 
-#### Start on boot
-Make a Desktop Entry for the program so it starts when you login. 
+You might want to change the `Exec=` line in the desktop entry so it fits your preferences. The possible options you can add to the executable are: 
 
 ```
-nano ~/.config/autostart/gnome-wallpaper-changer.desktop
+--source [unsplash/local, default local]   // Choose the source to use
+--path [default: ~/Pictures]    // Select the directory on your filesystem
 ```
 
-Paste the following into the file
+So your desktop entry might look like:
+
 ```
 [Desktop Entry]
 Name=gnome-wallpaper-changer
-Exec=/usr/bin/gnome-wallpaper-changer
+Exec=/usr/bin/gnome-wallpaper-changer --source unsplash
 Comment=Automatically change wallpaper
 Hidden=false
 Type=Application
 X-GNOME-Autostart-enabled=true
 ```
 
-Save (`CTRL+O`) and exit (`CTRL+X`).
-
-Everything is set up and will start working the next time you login.
-
-## Little extra from the house
-**Oh man I don't have any cool wallpapers to slide through....**
-
-No problem mate! Check [unsplash.com](https://unsplash.com/) for awesome free to use wallpaper. I use this site all the time for my wallpaper and projects, so spreading a bit of love never hurts! :)
+## Removing 
+In case you have used the installer you can also use it to remove Gnome Wallpaper Changer. Run `./install.sh --remove` to remove the package. 

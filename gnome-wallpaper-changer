@@ -1,0 +1,137 @@
+#!/bin/bash
+#
+# Copyright 2015 - Dirk Groenen
+
+# You can change the config vars below so they fit your setup
+
+SLEEP=600 # Time to sleep before changing to another wallpaper (seconds)
+WP_DIR=/home/$USER/Pictures/wallpapers # Set your wallpaper directory here
+
+# ****************************
+# Don't change anything below this line
+# ****************************
+
+LOGFILE="/var/log/gnome-wallpaper-changer.log"
+SOURCE="local"
+
+RETRY_TIMEOUT=30
+
+function get_random_image_from_unsplash {
+    write_log "Getting image from Unsplash"
+
+    # Get a random featured image from Unsplash and save the response in $response
+    response=$(curl -s -S -X GET -H 'Authorization: Client-ID 53bf8603de0f9a6c69948a0a7120cf32ff4b2cdd5cfba750b1c6cb2fcd2fe24d' 'https://api.unsplash.com/photos/random?featured=1')
+
+    # Set regex to get our image url
+    regex="\"full\":\"([^\"]+)\""
+
+    if [[ $response =~ $regex ]] ; then
+        write_log "Response from Unsplash contains image"
+
+        imagepath=/tmp/gnome-unsplash-wallpaper.$(date +"%s").jpg
+        imageurl=${BASH_REMATCH[1]}
+
+        write_log "Downloading image from $imageurl to $imagepath"
+
+        # Download the image
+        wget -O $imagepath $imageurl >/dev/null 2>&1
+
+        # Return the path to the image
+        echo $imagepath
+    else
+        write_log "Response from Unsplash didn't contain an image. Retrying in $RETRY_TIMEOUT seconds"
+
+        # Unsplash returned no image. Retry in 30 seconds
+        sleep $RETRY_TIMEOUT
+        get_random_image_from_unsplash
+    fi
+}
+
+function get_random_image_from_directory {
+    cd $WP_DIR
+
+    set -- *
+    length=$#
+    random_num=$((( $RANDOM % ($length) ) + 1))
+
+    write_log "Got new image from local path: '$WP_DIR/${!random_num}'"
+
+    echo $WP_DIR/${!random_num}
+}
+
+function get_next_image {
+    case "$SOURCE" in
+        unsplash)
+            get_random_image_from_unsplash
+            ;;
+       local)
+            get_random_image_from_directory
+            ;;
+        *)
+            print_error_and_die "Source unknown. Exiting..."
+            ;;
+    esac
+}
+
+# *****************
+# Helper functions
+# *****************
+
+# Simple error printer
+function print_error_and_die {
+    write_log "fatal: $1"
+    exit 9
+}
+
+# Checks if last command was successful
+function check_exit_status {
+    if [ $? -ne 0 ]; then
+        print_error_and_die "$1, exiting..." "$2"
+    fi
+}
+
+function write_log {
+    echo "$(date): $1" >> "$LOGFILE"
+}
+
+# ************
+# App startup
+# ************
+
+# Test the given paramaters for matches
+while test $# != 0
+do
+    case "$1" in
+        -s|--source)
+            SOURCE="$2"
+            shift
+            ;;
+        -p|--path)
+            WP_DIR="$2"
+            shift
+            ;;
+    esac
+    shift
+done
+
+write_log "----------- Started application ----------------"
+
+# Do the main loop which changes the image
+while [ 1 ]
+    do
+    set -- *
+
+    write_log "Getting new image..."
+
+    # Get new image
+    currentimage=$(get_next_image)
+
+    write_log "Setting new image as gnome wallpaper: '$currentimage'"
+
+    # set as background
+    gsettings set org.gnome.desktop.background picture-uri "file://$currentimage"
+
+    write_log "Sleeping for $SLEEP seconds"
+
+    sleep $SLEEP
+done
