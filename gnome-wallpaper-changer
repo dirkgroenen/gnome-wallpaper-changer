@@ -29,7 +29,7 @@
 SLEEP=600
 WP_DIR=/home/$USER/Pictures
 
-LOGFILE="/var/log/gnome-wallpaper-changer.log"
+LOGFILE="/home/$USER/.gnome-wallpaper-changer.log"
 SOURCE="local"
 
 RETRY_TIMEOUT=60
@@ -42,7 +42,7 @@ function get_random_image_from_unsplash {
 
     # Set regex to get our image url
     regex_image="\"full\":\"([^\"]+)\""
-    regex_rate_limit = "X-Ratelimit-Remaining: ([0-9]+)"
+    regex_rate_limit="X-Ratelimit-Remaining: ([0-9]+)"
 
     if [[ $response =~ $regex_rate_limit ]] ; then
         REMAINING=${BASH_REMATCH[1]}
@@ -52,16 +52,10 @@ function get_random_image_from_unsplash {
     if [[ $response =~ $regex_image ]] ; then
         write_log "Response from Unsplash contains image"
 
-        imagepath=/tmp/gnome-unsplash-wallpaper.$(date +"%s").jpg
         imageurl=${BASH_REMATCH[1]}
 
-        write_log "Downloading image from $imageurl to $imagepath"
-
-        # Download the image
-        wget -O $imagepath $imageurl >/dev/null 2>&1
-
         # Return the path to the image
-        echo $imagepath
+        echo $imageurl
     else
         write_log "Response from Unsplash didn't contain an image. Retrying in $RETRY_TIMEOUT seconds"
 
@@ -78,9 +72,11 @@ function get_random_image_from_directory {
     length=$#
     random_num=$((( $RANDOM % ($length) ) + 1))
 
-    write_log "Got new image from local path: '$WP_DIR/${!random_num}'"
+    imagepath="file://$WP_DIR/${!random_num}"
 
-    echo $WP_DIR/${!random_num}
+    write_log "Got new image from local path: '$imagepath'"
+
+    echo $imagepath
 }
 
 function get_next_image {
@@ -158,7 +154,7 @@ while [ 1 ]
     write_log "Setting new image as gnome wallpaper: '$currentimage'"
 
     # set as background
-    gsettings set org.gnome.desktop.background picture-uri "file://$currentimage"
+    gsettings set org.gnome.desktop.background picture-uri "$currentimage"
 
     write_log "Sleeping for $SLEEP seconds"
 
